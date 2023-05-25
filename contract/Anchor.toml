@@ -1,0 +1,25 @@
+[features]
+seeds = false
+
+[programs.localnet]
+rps_game = "Ac3kkjDyjucBiPXQMaeLHmC1sr3iCJqGQ1UuPKX1YsCE"
+
+[programs.devnet]
+rps_game = "Ac3kkjDyjucBiPXQMaeLHmC1sr3iCJqGQ1UuPKX1YsCE"
+
+[programs.mainnet]
+rps_game = "Ac3kkjDyjucBiPXQMaeLHmC1sr3iCJqGQ1UuPKX1YsCE"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+#cluster = "http://127.0.0.1:8899"
+#cluster = "devnet"
+#cluster = "mainnet"
+wallet = "/root/.config/solana/id.json"
+#wallet = "/work/Solana/CoinFlip-Hbar-Sol/solana_coinflip/coin_flip/mystery-admin.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
