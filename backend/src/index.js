@@ -1,5 +1,5 @@
 const app = require('./app');
-const https = require('https');
+const https = require('http');
 const fs = require('fs');
 
 // var server = require('http').createServer(app);
@@ -7,15 +7,15 @@ const fs = require('fs');
 // server.listen(port, () => console.log(`Listening on port ${port}..`));
 
 const httpsPort = 3306;
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/degenparadiseflip.com/privkey.pem');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/degenparadiseflip.com/fullchain.pem');
+// const privateKey = fs.readFileSync('/etc/letsencrypt/live/degenparadiseflip.com/privkey.pem');
+// const certificate = fs.readFileSync('/etc/letsencrypt/live/degenparadiseflip.com/fullchain.pem');
 
-const credentials = {
-    key: privateKey,
-    cert: certificate,
-}
+// const credentials = {
+//     key: privateKey,
+//     cert: certificate,
+// }
 
-https.createServer(credentials, app)
+https.createServer(app)
     .listen(httpsPort, () => {
-        console.log(`plutopeer server is running at port ${httpsPort} as https.`);
+        console.log(`coinflip server is running at port ${httpsPort} as https.`);
     });

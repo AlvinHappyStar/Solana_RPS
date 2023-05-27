@@ -6,8 +6,6 @@ const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 
-db.Status = require('./status.model')(mongoose);
-db.Process = require('./process.model')(mongoose);
 db.History = require('./history.model')(mongoose);
 
 module.exports = db;
