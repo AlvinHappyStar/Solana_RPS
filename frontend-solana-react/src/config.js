@@ -2,6 +2,8 @@ export const BET_TYPE_ROCK = "rock";
 export const BET_TYPE_PAPER = "paper";
 export const BET_TYPE_SCISSORS = "scissors";
 
+export const BACKEND_URL = "http://127.0.0.1:61501/api/rps";
+
 export const SUPPORTED_TOKEN_INFO = [
   {
     index: 0,

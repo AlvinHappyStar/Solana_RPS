@@ -43,7 +43,7 @@ function Play() {
 
     
     try {
-      const gameResult = await coinFlip(provider, currentBetPrice);
+      const gameResult = await coinFlip(provider, currentBetPrice, currentBetType);
       console.log("result =====================> ", gameResult);
       if(gameResult != null)
       {

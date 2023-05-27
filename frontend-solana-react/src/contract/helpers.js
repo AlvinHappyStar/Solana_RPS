@@ -14,6 +14,7 @@ import {
 import * as anchor from "@project-serum/anchor";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { NotificationManager } from "react-notifications";
+import axios from 'axios';
 
 import {
     ADMIN_WALLET_ON_SOLONA,
@@ -21,7 +22,9 @@ import {
     GLOBAL_STATE_SEED,
     USER_STATE_SEED,
     VAULT_SEED,
+    BACKEND_URL
 } from "../config";
+
 
 const IDL = require("./rps_game.json");
 const PublicKey = anchor.web3.PublicKey;
@@ -201,10 +204,10 @@ export const depositReward = async (wallet, amount) => {
     return await send(wallet, tx);
 };
 
-export const coinFlip = async (wallet, amount) => {
+export const coinFlip = async (wallet, amount, type) => {
     if (wallet.publicKey === null) throw new WalletNotConnectedError();
     console.log("amount ==============> ", amount);
-    let program = getProgram(wallet);
+    let program = getProgram(wallet.publicKey);
 
     const tx = new Transaction().add(
         await program.methods
@@ -246,6 +249,16 @@ export const coinFlip = async (wallet, amount) => {
     //         userState: userStateKey,
     //     }).rpc();
     // }
+
+    if(userData.lastSpinresult != null)
+    {
+        axios.post(`${BACKEND_URL}/set_history`, 
+        { walletAddress: wallet.publicKey.toString(),
+          betAmount:  amount,
+          betType: type,
+          win: userData.lastSpinresult
+          });
+    }
 
     return userData.lastSpinresult;
 };

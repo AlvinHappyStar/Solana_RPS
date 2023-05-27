@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import { Box, Button, Container, Typography } from "@mui/material";
 import Navbar from "../components/navbar";
-import { BET_TYPE_PAPER, BET_TYPE_ROCK, BET_TYPE_SCISSORS } from "../config";
+import { BACKEND_URL } from "../config";
+
+import dayjs from 'dayjs'
+
 
 function Home() {
   const navigate = useNavigate();
 
-  const [playHistory, setPlayHistory] = useState(tempPlayHistory);
+  const [playHistory, setPlayHistory] = useState([]);
+
+  var relativeTime = require('dayjs/plugin/relativeTime')
+  dayjs.extend(relativeTime)
+
+  const fetchHistory = async () => {
+    const res = await axios.get(`${BACKEND_URL}/get_history`);
+
+    console.log(res.data.data);
+
+    setPlayHistory(res.data.data);
+  }
+
+  useEffect(() => {
+    console.log(Date.now())
+    fetchHistory();
+  }, [])
 
   return (
     <>
@@ -110,7 +130,7 @@ function Home() {
                         color: "#FFC700",
                       }}
                     >
-                      {item.playerId}
+                      {item.accountId.substring(0,12) + "..." + item.accountId.substring(item.accountId.length - 6, item.accountId.length)}
                     </Typography>
                     <Typography
                       sx={{
@@ -145,10 +165,10 @@ function Home() {
                     </Typography>
                     <Typography
                       sx={{
-                        color: item.isWin ? "#1CC700" : "#FF0000",
+                        color: item.win === 0 ? "#1CC700" : "#FF0000",
                       }}
                     >
-                      {item.isWin ? "WON" : "LOST"}
+                      {item.win === 0 ? "WON" : "LOST"}
                     </Typography>
                   </Box>
                   <Typography
@@ -160,7 +180,7 @@ function Home() {
                       marginLeft: "20px",
                     }}
                   >
-                    35 seconds ago
+                    { dayjs().to(item.createdAt) }
                   </Typography>
                   <Typography
                     sx={{
@@ -171,7 +191,7 @@ function Home() {
                       marginLeft: "20px",
                     }}
                   >
-                    35s
+                    { dayjs().to(dayjs(dayjs.unix(item.betTime))) }
                   </Typography>
                 </Box>
               ))}
@@ -183,30 +203,3 @@ function Home() {
 }
 
 export default Home;
-
-const tempPlayHistory = [
-  {
-    playerId: "0xMERT",
-    betType: BET_TYPE_ROCK,
-    betAmount: 0.25,
-    isWin: true,
-  },
-  {
-    playerId: "0xMBEK",
-    betType: BET_TYPE_PAPER,
-    betAmount: 0.5,
-    isWin: true,
-  },
-  {
-    playerId: "0xCLOK",
-    betType: BET_TYPE_SCISSORS,
-    betAmount: 0.75,
-    isWin: false,
-  },
-  {
-    playerId: "0xALKE",
-    betType: BET_TYPE_ROCK,
-    betAmount: 1.0,
-    isWin: true,
-  },
-];
