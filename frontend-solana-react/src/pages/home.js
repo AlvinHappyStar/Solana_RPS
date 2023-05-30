@@ -191,7 +191,7 @@ function Home() {
                       marginLeft: "20px",
                     }}
                   >
-                    { dayjs().to(dayjs(dayjs.unix(item.betTime))) }
+                    { dayjs().to(item.createdAt) }
                   </Typography>
                 </Box>
               ))}
